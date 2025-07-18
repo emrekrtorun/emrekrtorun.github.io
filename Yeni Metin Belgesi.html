@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Affet Beni</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ffe6e6, #e6f7ff);
+      font-family: 'Segoe UI', sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    h1 {
+      color: #cc0066;
+      font-size: 1.7em;
+      margin: 20px;
+      padding: 0 20px;
+    }
+
+    .btn {
+      padding: 15px 25px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: absolute;
+    }
+
+    #yesBtn {
+      background-color: #ff3366;
+      color: white;
+    }
+
+    #noBtn {
+      background-color: #999;
+      color: white;
+    }
+
+    .message {
+      margin-top: 30px;
+      font-size: 1.3em;
+      color: #006699;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>
+    Kalbini kırdıysam affet...<br>
+    Beni en iyi sen tamamlarsın.<br>
+    Bu sayfa sadece sana ait, çünkü sen benim için eşsizsin.<br>
+    <strong>Beni affediyor musun?</strong>
+  </h1>
+
+  <button id="yesBtn" class="btn" onclick="sayYes()">Evet</button>
+  <button id="noBtn" class="btn" onclick="moveNo()">Hayır</button>
+
+  <div class="message" id="message"></div>
+
+  <script>
+    let yesBtn = document.getElementById("yesBtn");
+    let noBtn = document.getElementById("noBtn");
+    let message = document.getElementById("message");
+    let yesScale = 1;
+    let noScale = 1;
+
+    // Başlangıç yerleri
+    yesBtn.style.left = "30%";
+    yesBtn.style.top = "65%";
+    noBtn.style.left = "55%";
+    noBtn.style.top = "65%";
+
+    function moveNo() {
+      let windowWidth = window.innerWidth;
+      let windowHeight = window.innerHeight;
+
+      let newX = Math.random() * (windowWidth - 100);
+      let newY = Math.random() * (windowHeight - 50);
+
+      noBtn.style.left = `${newX}px`;
+      noBtn.style.top = `${newY}px`;
+
+      // Hayır butonunu küçült
+      noScale -= 0.1;
+      if (noScale < 0.2) noScale = 0.2; // çok küçülmesin
+      noBtn.style.transform = `scale(${noScale})`;
+
+      // Evet butonunu büyüt
+      yesScale += 0.2;
+      yesBtn.style.transform = `scale(${yesScale})`;
+    }
+
+    function sayYes() {
+      message.innerText = "İyi ki varsın! Seni çok seviyorum ❤️";
+      yesBtn.style.display = "none";
+      noBtn.style.display = "none";
+    }
+  </script>
+
+</body>
+</html>
