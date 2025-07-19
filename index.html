@@ -16,14 +16,15 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      text-align: center;
+      text-align: center;      
     }
 
     h1 {
       color: #cc0066;
-      font-size: 1.7em;
+      font-size: 1.8em;
       margin: 20px;
       padding: 0 20px;
+      z-index: 5;
     }
 
     .btn {
@@ -34,6 +35,7 @@
       cursor: pointer;
       transition: all 0.3s ease;
       position: absolute;
+      z-index: 5;
     }
 
     #yesBtn {
@@ -50,16 +52,45 @@
       margin-top: 30px;
       font-size: 1.3em;
       color: #006699;
+      z-index: 5;
+    }
+
+    .image-container {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 1s ease forwards;
+      padding: 20px;
       z-index: 10;
+    }
+
+    .image-container img {
+      width: 320px;
+      max-width: 90%;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .love-text {
+      font-size: 2em;
+      color: #cc0066;
+      font-weight: bold;
+      text-shadow: 1px 1px 2px #fff;
+      line-height: 1.6;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
     }
   </style>
 </head>
 <body>
 
-  <h1>
-    Kalbini kırdıysam affet...<br>
-    Beni en iyi sen tamamlarsın.<br>
-    Bu sayfa sadece sana ait, çünkü sen benim için eşsizsin.<br>
+  <h1 id="mainText">
+    Kalbini kırdıysam özür dilerim...<br>
     <strong>Beni affediyor musun?</strong>
   </h1>
 
@@ -68,15 +99,26 @@
 
   <div class="message" id="message"></div>
 
+  <div class="image-container" id="imageContainer">
+    <img src="https://github.com/emrekrtorun/emrekrtorun.github.io/blob/main/aaaa.png">
+    <div class="love-text">
+      İyi ki varsın ❤️<br>
+      Seni çookk seviyorumm. Her zaman yanındayım.
+    </div>
+  </div>
+
   <script>
     let yesBtn = document.getElementById("yesBtn");
     let noBtn = document.getElementById("noBtn");
     let message = document.getElementById("message");
+    let imageContainer = document.getElementById("imageContainer");
+    let mainText = document.getElementById("mainText");
+
     let yesScale = 1;
     let noScale = 1;
 
     // Başlangıç yerleri
-    yesBtn.style.left = "30%";
+    yesBtn.style.left = "40%";
     yesBtn.style.top = "65%";
     noBtn.style.left = "55%";
     noBtn.style.top = "65%";
@@ -85,28 +127,38 @@
       let windowWidth = window.innerWidth;
       let windowHeight = window.innerHeight;
 
-      let newX = Math.random() * (windowWidth - 100);
-      let newY = Math.random() * (windowHeight - 50);
+      let yesRect = yesBtn.getBoundingClientRect();
+      let overlap;
+
+      let newX, newY;
+      do {
+        newX = Math.random() * (windowWidth - 100);
+        newY = Math.random() * (windowHeight - 50);
+
+        overlap = newX < yesRect.right && newX + 100 > yesRect.left &&
+                  newY < yesRect.bottom && newY + 50 > yesRect.top;
+      } while (overlap);
 
       noBtn.style.left = `${newX}px`;
       noBtn.style.top = `${newY}px`;
 
-      // Hayır butonunu küçült
+      // Hayır küçülsün
       noScale -= 0.1;
-      if (noScale < 0.2) noScale = 0.2; // çok küçülmesin
+      if (noScale < 0.2) noScale = 0.2;
       noBtn.style.transform = `scale(${noScale})`;
 
-      // Evet butonunu büyüt
-      yesScale += 0.2;
+      // Evet büyüsün
+      yesScale += 0.3;
       yesBtn.style.transform = `scale(${yesScale})`;
     }
 
     function sayYes() {
-      message.innerText = "İyi ki varsın! Seni çok seviyorum ❤️";
       yesBtn.style.display = "none";
       noBtn.style.display = "none";
+      mainText.style.display = "none";
+      message.style.display = "none";
+      imageContainer.style.display = "flex";
     }
   </script>
-
 </body>
 </html>
